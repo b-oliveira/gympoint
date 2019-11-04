@@ -1,4 +1,10 @@
 import Sequelize, { Model } from 'sequelize';
+import {
+  startOfToday,
+  startOfDay,
+  parseISO,
+  differenceInYears,
+} from 'date-fns';
 
 class Student extends Model {
   static init(sequelize) {
@@ -9,6 +15,15 @@ class Student extends Model {
         birth_date: Sequelize.DATEONLY,
         weight: Sequelize.FLOAT,
         height: Sequelize.FLOAT,
+        age: {
+          type: Sequelize.VIRTUAL,
+          get() {
+            return differenceInYears(
+              startOfToday(),
+              startOfDay(parseISO(this.birth_date))
+            );
+          },
+        },
       },
       {
         sequelize,
