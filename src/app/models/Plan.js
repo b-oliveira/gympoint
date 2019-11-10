@@ -6,7 +6,7 @@ class Plan extends Model {
       {
         title: Sequelize.STRING,
         duration: Sequelize.SMALLINT,
-        proce: Sequelize.DOUBLE,
+        price: Sequelize.DOUBLE,
       },
       {
         sequelize,
