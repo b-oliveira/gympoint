@@ -6,7 +6,7 @@ class PlanController {
   async index(req, res) {
     const plans = await Plan.findAll({
       attributes: ['id', 'title', 'duration', 'price'],
-      order: ['price'],
+      order: ['duration'],
     });
 
     return res.json(plans);
@@ -54,6 +54,14 @@ class PlanController {
       duration,
       price,
     });
+  }
+
+  async delete(req, res) {
+    const plan = await Plan.findByPk(req.params.id);
+
+    await plan.destroy();
+
+    return res.send();
   }
 }
 
