@@ -6,6 +6,26 @@ import Student from '../models/Student';
 import Plan from '../models/Plan';
 
 class SubscriptionController {
+  async index(req, res) {
+    const subscriptions = await Subscription.findAll({
+      attributes: ['id', 'start_date', 'end_date', 'price', 'active'],
+      include: [
+        {
+          model: Student,
+          as: 'student',
+          attributes: ['id', 'name'],
+        },
+        {
+          model: Plan,
+          as: 'plan',
+          attributes: ['id', 'title'],
+        },
+      ],
+    });
+
+    return res.json(subscriptions);
+  }
+
   async store(req, res) {
     const schema = Yup.object().shape({
       student_id: Yup.number().required(),
