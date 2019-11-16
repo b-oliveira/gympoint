@@ -23,5 +23,6 @@ routes.delete('/plans/:id', PlanController.delete);
 
 routes.post('/subscriptions', SubscriptionController.store);
 routes.put('/subscriptions/:id', SubscriptionController.update);
+routes.delete('/subscriptions/:id', SubscriptionController.delete);
 
 export default routes;

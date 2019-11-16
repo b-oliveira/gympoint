@@ -92,6 +92,17 @@ class SubscriptionController {
       active,
     });
   }
+
+  async delete(req, res) {
+    const subscription = await Subscription.findByPk(req.params.id);
+
+    if (!subscription)
+      return res.status(400).json({ error: 'Subscription does not exist!' });
+
+    await subscription.destroy();
+
+    return res.send();
+  }
 }
 
 export default new SubscriptionController();
