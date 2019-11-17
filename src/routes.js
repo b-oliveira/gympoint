@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import SessionController from './app/controllers/SessionController';
+import CheckinController from './app/controllers/CheckinController';
 import StudentController from './app/controllers/StudentController';
 import PlanController from './app/controllers/PlanController';
 import SubscriptionController from './app/controllers/SubscriptionController';
@@ -10,6 +11,8 @@ import authMiddleware from './app/middlewares/auth';
 const routes = new Router();
 
 routes.post('/sessions', SessionController.store);
+
+routes.post('/students/:id/checkins', CheckinController.store);
 
 routes.use(authMiddleware);
 
