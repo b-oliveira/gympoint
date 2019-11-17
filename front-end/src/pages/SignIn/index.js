@@ -1,7 +1,20 @@
 import React from 'react';
-
-// import { Container } from './styles';
+import { Form, Input } from '@rocketseat/unform';
 
 export default function SignIn() {
-  return <h1>SignIn</h1>;
+  function handleSubmit(data) {
+    console.tron.log(data);
+  }
+
+  return (
+    <>
+      <Form onSubmit={handleSubmit}>
+        <strong>SEU E-MAIL</strong>
+        <Input name="email" type="email" placeholder="exemplo@email.com" />
+        <strong>SUA SENHA</strong>
+        <Input name="password" type="password" placeholder="*************" />
+        <button type="submit">Entrar no sistema</button>
+      </Form>
+    </>
+  );
 }
