@@ -5,13 +5,32 @@ import Checkin from '../models/Checkin';
 import Student from '../models/Student';
 
 class CheckinController {
+  async index(req, res) {
+    const { id } = req.params;
+
+    const student = await Student.findByPk(id);
+
+    if (!student)
+      return res.status(404).json({ error: 'Student does not exist!' });
+
+    const checkins = await Checkin.findAll({
+      attributes: ['created_at'],
+      where: {
+        student_id: id,
+      },
+      order: [['created_at', 'desc']],
+    });
+
+    return res.json(checkins);
+  }
+
   async store(req, res) {
     const { id } = req.params;
 
     const student = await Student.findByPk(id);
 
     if (!student)
-      return res.status(400).json({ error: 'Student does not exist!' });
+      return res.status(404).json({ error: 'Student does not exist!' });
 
     const currentDate = new Date();
 
