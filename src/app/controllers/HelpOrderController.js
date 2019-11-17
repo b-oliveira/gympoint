@@ -4,6 +4,25 @@ import HelpOrder from '../models/HelpOrder';
 import Student from '../models/Student';
 
 class HelpOrderController {
+  async index(req, res) {
+    const { id } = req.params;
+
+    const student = await Student.findByPk(id);
+
+    if (!student)
+      return res.status(404).json({ error: 'Student does not exist!' });
+
+    const helpOrders = await HelpOrder.findAll({
+      attributes: ['id', 'question', 'answer', 'created_at'],
+      where: {
+        student_id: id,
+      },
+      order: [['created_at', 'desc']],
+    });
+
+    return res.json(helpOrders);
+  }
+
   async store(req, res) {
     const student_id = req.params.id;
 
@@ -50,11 +69,9 @@ class HelpOrderController {
 
     const { answer } = req.body;
 
-    const answer_at = new Date();
-
-    const { student_id, question } = await helpOrder.update({
+    const { student_id, question, created_at } = await helpOrder.update({
       answer,
-      answer_at,
+      answer_at: new Date(),
     });
 
     return res.json({
@@ -62,7 +79,7 @@ class HelpOrderController {
       student_id,
       question,
       answer,
-      answer_at,
+      created_at,
     });
   }
 }
