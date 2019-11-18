@@ -38,6 +38,12 @@ export const Content = styled.div`
       margin-bottom: 16px;
     }
 
+    span {
+      color: #ee4d64;
+      margin-top: -8px;
+      margin-bottom: 16px;
+    }
+
     button {
       background: #ee4d64;
       color: #fff;
