@@ -14,6 +14,12 @@ export const Content = styled.div`
   max-width: 360px;
   height: auto;
   background: #fff;
+  text-align: center;
+  margin-top: 32px;
+
+  img {
+    margin-top: 32px;
+  }
 
   form {
     display: flex;
@@ -42,6 +48,7 @@ export const Content = styled.div`
       color: #ee4d64;
       margin-top: -8px;
       margin-bottom: 16px;
+      text-align: left;
     }
 
     button {
