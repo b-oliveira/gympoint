@@ -2,6 +2,8 @@ import React from 'react';
 import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
 
+import logo from '~/assets/logo.png';
+
 const schema = Yup.object().shape({
   email: Yup.string()
     .email('Insira um e-mail válido')
@@ -16,6 +18,7 @@ export default function SignIn() {
 
   return (
     <>
+      <img src={logo} alt="GYMPOINT" />
       <Form schema={schema} onSubmit={handleSubmit}>
         <strong>SEU E-MAIL</strong>
         <Input name="email" type="email" placeholder="exemplo@email.com" />
