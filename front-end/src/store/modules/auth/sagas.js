@@ -28,6 +28,10 @@ export function* signIn({ payload }) {
   }
 }
 
+export function signOut() {
+  history.push('/');
+}
+
 export function setToken({ payload }) {
   if (payload) {
     const { token } = payload;
@@ -39,4 +43,5 @@ export function setToken({ payload }) {
 export default all([
   takeLatest('persist/REHYDRATE', setToken),
   takeLatest('@auth/SIGN_IN_REQUEST', signIn),
+  takeLatest('@auth/SIGN_OUT', signOut),
 ]);
