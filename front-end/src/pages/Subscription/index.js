@@ -3,36 +3,31 @@ import { MdCheckCircle } from 'react-icons/md';
 
 import api from '~/services/api';
 
-import {
-  Container,
-  Header,
-  Table,
-  TableColumn,
-  TableRow,
-  Actions,
-  Button,
-  Divider,
-} from './styles';
+import { Container } from '~/components/Container';
+import { SubHeader, SubHeaderTitle } from '~/components/SubHeader';
+import { PrimaryButton, SecondaryButton } from '~/components/Button';
+import { Table, TableColumn, TableRow } from '~/components/Table';
+import { Divider } from '~/components/Divider';
 
 export default function Subscription() {
-  const [schedule, setSchedule] = useState([]);
+  const [subscriptions, setSubscription] = useState([]);
 
   useEffect(() => {
-    async function loadSchedule() {
+    async function loadSubscriptions() {
       const response = await api.get('subscriptions');
 
-      setSchedule(response.data);
+      setSubscription(response.data);
     }
 
-    loadSchedule();
+    loadSubscriptions();
   }, []);
 
   return (
     <Container>
-      <Header>
-        <strong>Gerenciando matrículas</strong>
-        <button type="button">CADASTRAR</button>
-      </Header>
+      <SubHeader>
+        <SubHeaderTitle>Gerenciando matrículas</SubHeaderTitle>
+        <PrimaryButton>CADASTRAR</PrimaryButton>
+      </SubHeader>
       <Table>
         <thead>
           <tr>
@@ -44,25 +39,25 @@ export default function Subscription() {
           </tr>
         </thead>
         <tbody>
-          {schedule.map(teste => (
-            <tr key={teste.id}>
-              <TableRow text-align="left">{teste.student.name}</TableRow>
-              <TableRow>{teste.plan.title}</TableRow>
-              <TableRow>{teste.start_date_formatted}</TableRow>
-              <TableRow>{teste.end_date_formatted}</TableRow>
+          {subscriptions.map(subscription => (
+            <tr key={subscription.id}>
+              <TableRow text-align="left">{subscription.student.name}</TableRow>
+              <TableRow>{subscription.plan.title}</TableRow>
+              <TableRow>{subscription.start_date_formatted}</TableRow>
+              <TableRow>{subscription.end_date_formatted}</TableRow>
               <TableRow>
-                {teste.active ? (
+                {subscription.active ? (
                   <MdCheckCircle color="#42cb59" size={20} />
                 ) : (
                   <MdCheckCircle color="#dddddd" size={20} />
                 )}
               </TableRow>
               <TableRow text-align="right" max-width="60px">
-                <Actions>
-                  <Button color="#4D85EE">editar</Button>
+                <div>
+                  <SecondaryButton color="#4D85EE">editar</SecondaryButton>
                   <Divider />
-                  <Button color="#DE3B3B">apagar</Button>
-                </Actions>
+                  <SecondaryButton color="#DE3B3B">apagar</SecondaryButton>
+                </div>
               </TableRow>
             </tr>
           ))}

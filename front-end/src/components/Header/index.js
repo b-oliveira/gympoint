@@ -19,10 +19,10 @@ export default function Header() {
       <Content>
         <nav>
           {/* <img src="" alt="Gympoint" /> */}
-          <Link to="/dashboard">ALUNOS</Link>
-          <Link to="/">PLANOS</Link>
+          <Link to="/">ALUNOS</Link>
+          <Link to="/plan">PLANOS</Link>
 
-          <Link to="/">MATRÍCULAS</Link>
+          <Link to="/subscription">MATRÍCULAS</Link>
           <Link to="/">PEDIDOS DE AUXÍLIO</Link>
         </nav>
 
