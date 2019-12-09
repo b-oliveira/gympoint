@@ -6,3 +6,12 @@ export const Container = styled.div`
   width: 100%;
   max-width: ${props => props['max-width']};
 `;
+
+export const Content = styled.div`
+  background: #fff;
+  border-radius: 4px;
+  width: 100%;
+  padding: 32px;
+  flex-direction: column;
+  display: flex;
+`;

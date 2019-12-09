@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import api from '~/services/api';
+import history from '~/services/history';
 
 import { Container } from '~/components/Container';
 import { SubHeader, SubHeaderTitle } from '~/components/SubHeader';
@@ -20,6 +21,17 @@ export default function Plan() {
 
     loadPlans();
   }, []);
+
+  function updatePlan(plan) {
+    history.push({
+      pathname: '/teste',
+      plan,
+    });
+  }
+
+  function deletePlan(id) {
+    console.tron.log(id);
+  }
 
   return (
     <Container max-width="900px">
@@ -42,9 +54,19 @@ export default function Plan() {
               <TableRow>{plan.duration}</TableRow>
               <TableRow>{plan.price}</TableRow>
               <TableRow text-align="right" max-width="60px">
-                <SecondaryButton color="#4D85EE">editar</SecondaryButton>
+                <SecondaryButton
+                  color="#4D85EE"
+                  onClick={() => updatePlan(plan)}
+                >
+                  editar
+                </SecondaryButton>
                 <Divider />
-                <SecondaryButton color="#DE3B3B">apagar</SecondaryButton>
+                <SecondaryButton
+                  color="#DE3B3B"
+                  onClick={() => deletePlan(plan.id)}
+                >
+                  apagar
+                </SecondaryButton>
               </TableRow>
             </tr>
           ))}
