@@ -20,12 +20,13 @@ routes.get('/students/:id/help-orders', HelpOrderController.index);
 routes.post('/students/:id/help-orders', HelpOrderController.store);
 routes.put('/help-orders/:id/answer', HelpOrderController.update);
 
-//routes.use(authMiddleware);
+routes.use(authMiddleware);
 
 routes.post('/students', StudentController.store);
 routes.put('/students/:id', StudentController.update);
 
 routes.get('/plans', PlanController.index);
+routes.get('/plans/:id', PlanController.show);
 routes.post('/plans', PlanController.store);
 routes.put('/plans/:id', PlanController.update);
 routes.delete('/plans/:id', PlanController.delete);
