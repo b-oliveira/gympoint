@@ -67,6 +67,29 @@ class SubscriptionController {
     return res.json(data);
   }
 
+  async show(req, res) {
+    const subscription = await Subscription.findByPk(req.params.id, {
+      attributes: ['id', 'start_date', 'end_date', 'price', 'active'],
+      include: [
+        {
+          model: Student,
+          as: 'student',
+          attributes: ['id', 'name'],
+        },
+        {
+          model: Plan,
+          as: 'plan',
+          attributes: ['id', 'title'],
+        },
+      ],
+    });
+
+    if (!subscription)
+      return res.status(404).json({ error: 'Subscription does not exist!' });
+
+    return res.send(subscription);
+  }
+
   async store(req, res) {
     const schema = Yup.object().shape({
       student_id: Yup.number().required(),
