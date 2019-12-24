@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 import api from '~/services/api';
 import history from '~/services/history';
+
+import { formatPrice } from '~/util/format';
 
 import { Container } from '~/components/Container';
 import { SubHeader, SubHeaderTitle } from '~/components/SubHeader';
@@ -16,28 +19,57 @@ export default function Plan() {
     async function loadPlans() {
       const response = await api.get('plans');
 
-      setPlan(response.data);
+      const data = response.data.map(plan => {
+        const { duration } = plan;
+
+        const durationFormatted = `${duration} ${
+          duration === 1 ? 'Mês' : 'Meses'
+        }`;
+        const priceFormatted = formatPrice(plan.price);
+
+        return {
+          ...plan,
+          durationFormatted,
+          priceFormatted,
+        };
+      });
+
+      setPlan(data);
     }
 
     loadPlans();
   }, []);
 
+  function createPlan() {
+    history.push(`/plans/new`);
+  }
+
   function updatePlan(plan) {
     history.push({
-      pathname: '/teste',
+      pathname: `/plans/${plan.id}/edit`,
       plan,
     });
   }
 
-  function deletePlan(id) {
-    console.tron.log(id);
+  async function deletePlan(id) {
+    try {
+      await api.delete(`plans/${id}`);
+
+      setPlan(plans.filter(plan => plan.id !== id));
+
+      toast.success('Registro excluído com sucesso!');
+    } catch (_) {
+      toast.error('Não foi possível realizar esta operação!');
+    }
   }
 
   return (
     <Container max-width="900px">
       <SubHeader>
         <SubHeaderTitle>Gerenciando planos</SubHeaderTitle>
-        <PrimaryButton>CADASTRAR</PrimaryButton>
+        <PrimaryButton width="142px" onClick={() => createPlan()}>
+          CADASTRAR
+        </PrimaryButton>
       </SubHeader>
       <Table>
         <thead>
@@ -51,8 +83,8 @@ export default function Plan() {
           {plans.map(plan => (
             <tr key={plan.id}>
               <TableRow text-align="left">{plan.title}</TableRow>
-              <TableRow>{plan.duration}</TableRow>
-              <TableRow>{plan.price}</TableRow>
+              <TableRow>{plan.durationFormatted}</TableRow>
+              <TableRow>{plan.priceFormatted}</TableRow>
               <TableRow text-align="right" max-width="60px">
                 <SecondaryButton
                   color="#4D85EE"

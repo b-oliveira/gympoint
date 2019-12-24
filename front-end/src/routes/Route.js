@@ -16,7 +16,7 @@ export default function RouteWrapper({
 
   if (!signed && isPrivate) return <Redirect to="/" />;
 
-  if (signed && !isPrivate) return <Redirect to="subscription" />;
+  if (signed && !isPrivate) return <Redirect to="subscriptions" />;
 
   const Layout = signed ? DefaultLayout : AuthLayout;
 

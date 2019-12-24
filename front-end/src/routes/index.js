@@ -11,9 +11,10 @@ export default function Routes() {
   return (
     <Switch>
       <Route path="/" exact component={SignIn} />
-      <Route path="/plan" component={Plan} isPrivate />
-      <Route path="/teste" component={PlanForm} isPrivate />
-      <Route path="/subscription" component={Subscription} isPrivate />
+      <Route path="/plans" exact component={Plan} isPrivate />
+      <Route path="/plans/:id/edit" component={PlanForm} isPrivate />
+      <Route path="/plans/new" component={PlanForm} isPrivate />
+      <Route path="/subscriptions" component={Subscription} isPrivate />
     </Switch>
   );
 }
