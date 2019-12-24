@@ -9,7 +9,7 @@ export default async (req, res, next) => {
   if (!authHeader)
     return res.status(401).json({ error: 'Token not provided!' });
 
-  const token = authHeader.replace('Bearer  ', '');
+  const [, token] = authHeader.split(' ');
 
   try {
     const { id } = await promisify(jwt.verify)(token, authConfig.secret);
