@@ -11,7 +11,7 @@ import { Container, Content } from '~/components/Container';
 import { SubHeader, SubHeaderTitle } from '~/components/SubHeader';
 import { PrimaryButton } from '~/components/Button';
 import { Divider } from '~/components/Divider';
-import { FormContent } from './styles';
+import { FormContent } from '~/components/FormContent';
 
 const schema = Yup.object().shape({
   title: Yup.string().required('É obrigatório informar o título.'),

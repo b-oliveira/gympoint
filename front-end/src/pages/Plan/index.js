@@ -45,10 +45,7 @@ export default function Plan() {
   }
 
   function updatePlan(plan) {
-    history.push({
-      pathname: `/plans/${plan.id}/edit`,
-      plan,
-    });
+    history.push(`/plans/${plan.id}/edit`);
   }
 
   async function deletePlan(id) {
