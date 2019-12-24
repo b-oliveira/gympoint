@@ -17,13 +17,13 @@ export function* signIn({ payload }) {
 
     const { token, user } = response.data;
 
-    api.defaults.headers.Authorization = `Bearer  ${token}`;
+    api.defaults.headers.Authorization = `Bearer ${token}`;
 
     yield put(signInSuccess(token, user));
 
-    history.push('/subscription');
+    history.push('/subscriptions');
   } catch (err) {
-    toast.error('Falha na autenticação, confira seus dados!');
+    toast.error(err.response.data.error);
     yield put(signFailure());
   }
 }
@@ -34,9 +34,9 @@ export function signOut() {
 
 export function setToken({ payload }) {
   if (payload) {
-    const { token } = payload;
+    const { token } = payload.auth;
 
-    if (token) api.defaults.headers.Authorization = `Bearer  ${token}`;
+    if (token) api.defaults.headers.Authorization = `Bearer ${token}`;
   }
 }
 
