@@ -1,18 +1,21 @@
 import styled from 'styled-components';
+import AsyncSelect from 'react-select/async';
 
 export const FormContent = styled.div`
-  > div {
+  ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(189px, 1fr));
+    grid-gap: 16px;
+    width: 100%;
+
+    /* grid-gap: 16px; */
     &:not(:last-child) {
       margin-bottom: 20px;
     }
 
-    display: flex;
-    width: 100%;
-
-    > div {
+    li {
       display: flex;
       flex-direction: column;
-      width: 100%;
 
       strong {
         font-weight: bold;
@@ -28,6 +31,19 @@ export const FormContent = styled.div`
         border: 1px solid #dddddd;
         box-sizing: border-box;
         padding: 16px;
+        width: 100%;
+      }
+      input[type='date']::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+      }
+      input[type='date']::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      input:disabled {
+        background: #f5f5f5;
+        cursor: not-allowed;
       }
 
       span {
@@ -37,9 +53,7 @@ export const FormContent = styled.div`
         margin-top: 8px;
       }
     }
-
-    div + div {
-      margin-left: 16px;
-    }
   }
 `;
+
+export const InputAsyncSelect = styled(AsyncSelect)``;

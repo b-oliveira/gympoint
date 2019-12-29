@@ -116,14 +116,14 @@ export default function Plan() {
         </SubHeader>
         <Content>
           <FormContent>
-            <div>
-              <div>
+            <ul>
+              <li>
                 <strong>TÍTULO DO PLANO</strong>
                 <Input name="title" type="text" />
-              </div>
-            </div>
-            <div>
-              <div>
+              </li>
+            </ul>
+            <ul>
+              <li>
                 <strong>DURAÇÃO (em meses)</strong>
                 <Input
                   name="duration"
@@ -135,8 +135,8 @@ export default function Plan() {
                     })
                   }
                 />
-              </div>
-              <div>
+              </li>
+              <li>
                 <strong>PREÇO MENSAL</strong>
                 <Input
                   name="price"
@@ -148,8 +148,8 @@ export default function Plan() {
                     })
                   }
                 />
-              </div>
-              <div>
+              </li>
+              <li>
                 <strong>PREÇO TOTAL</strong>
                 <Input
                   name="priceTotal"
@@ -157,8 +157,8 @@ export default function Plan() {
                   value={priceTotal || ''}
                   disabled
                 />
-              </div>
-            </div>
+              </li>
+            </ul>
           </FormContent>
         </Content>
       </Form>
