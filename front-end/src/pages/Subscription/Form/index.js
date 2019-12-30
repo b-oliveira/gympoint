@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Form, Input } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
+import { MdKeyboardArrowLeft, MdDone } from 'react-icons/md';
 import * as Yup from 'yup';
 import { addMonths, parseISO, format } from 'date-fns';
 import pt from 'date-fns/locale/pt';
@@ -16,6 +17,7 @@ import { PrimaryButton } from '~/components/Button';
 import { Divider } from '~/components/Divider';
 import { FormContent } from '~/components/FormContent';
 import AsyncSelect from '~/components/AsyncSelect';
+import DatePicker from '~/components/DatePicker';
 
 const schema = Yup.object().shape({
   student: Yup.mixed().required('Selecione o estudante.'),
@@ -41,7 +43,11 @@ export default function Subscription({ match }) {
           console.tron.log(data);
 
           setUpdate(true);
-          setSubscription(data);
+          setSubscription({
+            ...data,
+            start_date: parseISO(data.start_date),
+            end_date: parseISO(data.end_date),
+          });
         } catch (err) {
           toast.error(err.response.data.error);
           history.push('/subscriptions');
@@ -66,7 +72,7 @@ export default function Subscription({ match }) {
     console.tron.log(`calculateEndDate: ${start_date} ${duration}`);
 
     if (start_date && duration) {
-      return format(addMonths(parseISO(start_date), duration), 'yyyy-MM-dd');
+      return addMonths(start_date, duration);
     }
 
     return null;
@@ -99,6 +105,7 @@ export default function Subscription({ match }) {
   }
 
   function changeStartDate(start_date) {
+    console.tron.log(start_date);
     const { duration } = subscription.plan || {};
 
     setSubscription({
@@ -176,10 +183,12 @@ export default function Subscription({ match }) {
               width="112px"
               onClick={() => history.push('/subscriptions')}
             >
+              <MdKeyboardArrowLeft color="#fff" size={20} />
               VOLTAR
             </PrimaryButton>
             <Divider />
             <PrimaryButton type="submit" width="112px">
+              <MdDone color="#fff" size={20} />
               SALVAR
             </PrimaryButton>
           </div>
@@ -217,15 +226,22 @@ export default function Subscription({ match }) {
               </li>
               <li>
                 <strong>DURAÇÃO DE INÍCIO</strong>
-                <Input
+                <DatePicker
                   name="start_date"
-                  type="date"
-                  onChange={e => changeStartDate(e.target.value)}
+                  dateFormat="dd/MM/yyyy"
+                  placeholderText="Escolha a data"
+                  selected={subscription.start_date}
+                  onChange={changeStartDate}
                 />
               </li>
               <li>
                 <strong>DATA DE TÉRMINO</strong>
-                <Input name="end_date" type="date" disabled />
+                <DatePicker
+                  name="end_date"
+                  dateFormat="dd/MM/yyyy"
+                  selected={subscription.end_date}
+                  disabled
+                />
               </li>
               <li>
                 <strong>VALOR FINAL</strong>

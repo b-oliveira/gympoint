@@ -5,6 +5,13 @@ export const SubHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   padding-bottom: 16px;
+
+  div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: right;
+  }
 `;
 
 export const SubHeaderTitle = styled.strong`

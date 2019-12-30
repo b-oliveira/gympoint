@@ -11,6 +11,9 @@ export const PrimaryButton = styled.button`
   border-radius: 4px;
   text-align: right;
   padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 export const SecondaryButton = styled.button`

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MdCheckCircle } from 'react-icons/md';
+import { MdCheckCircle, MdAdd } from 'react-icons/md';
 
 import api from '~/services/api';
 import history from '~/services/history';
@@ -27,8 +27,12 @@ export default function Subscription() {
     <Container>
       <SubHeader>
         <SubHeaderTitle>Gerenciando matrículas</SubHeaderTitle>
-        <PrimaryButton onClick={() => history.push('/subscriptions/new')}>
-          CADASTRAR
+        <PrimaryButton
+          onClick={() => history.push('/subscriptions/new')}
+          width="142px"
+        >
+          <MdAdd color="#fff" size={20} />
+          <span>CADASTRAR</span>
         </PrimaryButton>
       </SubHeader>
       <Table>

@@ -24,6 +24,7 @@ export const FormContent = styled.div`
       }
 
       input {
+        color: #666666;
         font-weight: normal;
         font-size: 16px;
         height: 45px;
