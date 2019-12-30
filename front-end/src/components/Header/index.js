@@ -23,7 +23,7 @@ export default function Header() {
           <Link to="/plans">PLANOS</Link>
 
           <Link to="/subscriptions">MATRÍCULAS</Link>
-          <Link to="/">PEDIDOS DE AUXÍLIO</Link>
+          <Link to="/help-orders">PEDIDOS DE AUXÍLIO</Link>
         </nav>
 
         <aside>
