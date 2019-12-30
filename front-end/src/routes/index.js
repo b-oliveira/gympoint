@@ -3,6 +3,7 @@ import { Switch } from 'react-router-dom';
 import Route from './Route';
 
 import SignIn from '~/pages/SignIn';
+import Student from '~/pages/Student';
 import Plan from '~/pages/Plan';
 import PlanForm from '~/pages/Plan/Form';
 import Subscription from '~/pages/Subscription';
@@ -12,6 +13,8 @@ export default function Routes() {
   return (
     <Switch>
       <Route path="/" exact component={SignIn} />
+
+      <Route path="/students" exact component={Student} isPrivate />
 
       <Route path="/plans" exact component={Plan} isPrivate />
       <Route path="/plans/:id/edit" component={PlanForm} isPrivate />
