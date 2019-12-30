@@ -16,6 +16,17 @@ class StudentController {
     return res.json(students);
   }
 
+  async show(req, res) {
+    const student = await Student.findByPk(req.params.id, {
+      attributes: ['id', 'name', 'email', 'birth_date', 'age'],
+    });
+
+    if (!student)
+      return res.status(404).json({ error: 'Student does not exist!' });
+
+    return res.send(student);
+  }
+
   async store(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
