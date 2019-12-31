@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MdAdd } from 'react-icons/md';
+import { MdAdd, MdSearch } from 'react-icons/md';
 
 import api from '~/services/api';
 import history from '~/services/history';
@@ -12,28 +12,48 @@ import { Divider } from '~/components/Divider';
 
 export default function Student() {
   const [students, setStudents] = useState([]);
+  const [name, setName] = useState('');
 
   useEffect(() => {
     async function loadStudents() {
-      const response = await api.get('students');
+      const response = await api.get('students', {
+        params: {
+          name,
+        },
+      });
 
       setStudents(response.data);
     }
 
     loadStudents();
-  }, []);
+  }, [name]);
 
   return (
     <Container max-width="900px">
       <SubHeader>
         <SubHeaderTitle>Gerenciando alunos</SubHeaderTitle>
-        <PrimaryButton
-          onClick={() => history.push('/students/new')}
-          width="142px"
-        >
-          <MdAdd color="#fff" size={20} />
-          <span>CADASTRAR</span>
-        </PrimaryButton>
+        <div>
+          <PrimaryButton
+            onClick={() => history.push('/students/new')}
+            width="142px"
+          >
+            <MdAdd color="#fff" size={20} />
+            <span>CADASTRAR</span>
+          </PrimaryButton>
+          <Divider />
+          <span>
+            <MdSearch
+              color="#999999"
+              size={16}
+              visibility={name === '' ? 'visible' : 'hidden'}
+            />
+            <input
+              type="text"
+              placeholder="Buscar aluno"
+              onChange={e => setName(e.target.value)}
+            />
+          </span>
+        </div>
       </SubHeader>
       <Table>
         <thead>

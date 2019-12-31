@@ -8,7 +8,6 @@ export const FormContent = styled.div`
     grid-gap: 16px;
     width: 100%;
 
-    /* grid-gap: 16px; */
     &:not(:last-child) {
       margin-bottom: 20px;
     }
