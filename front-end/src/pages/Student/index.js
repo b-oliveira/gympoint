@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import { MdAdd, MdSearch } from 'react-icons/md';
 
 import api from '~/services/api';
@@ -27,6 +28,18 @@ export default function Student() {
 
     loadStudents();
   }, [name]);
+
+  async function deleteStudent(id) {
+    try {
+      await api.delete(`students/${id}`);
+
+      setStudents(students.filter(student => student.id !== id));
+
+      toast.success('Registro excluído com sucesso!');
+    } catch (_) {
+      toast.error('Não foi possível realizar esta operação!');
+    }
+  }
 
   return (
     <Container max-width="900px">
@@ -78,7 +91,12 @@ export default function Student() {
                     editar
                   </SecondaryButton>
                   <Divider />
-                  <SecondaryButton color="#DE3B3B">apagar</SecondaryButton>
+                  <SecondaryButton
+                    color="#DE3B3B"
+                    onClick={() => deleteStudent(student.id)}
+                  >
+                    apagar
+                  </SecondaryButton>
                 </div>
               </TableRow>
             </tr>
