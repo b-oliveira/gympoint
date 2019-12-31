@@ -1,9 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import { signOut } from '~/store/modules/auth/actions';
 
+import logo from '~/assets/logo-vertical.svg';
 import { Container, Content, Profile } from './styles';
 
 export default function Header() {
@@ -18,12 +19,14 @@ export default function Header() {
     <Container>
       <Content>
         <nav>
-          {/* <img src="" alt="Gympoint" /> */}
-          <Link to="/students">ALUNOS</Link>
-          <Link to="/plans">PLANOS</Link>
+          <img src={logo} alt="Gympoint" />
+          <span>
+            <NavLink to="/students">ALUNOS</NavLink>
+            <NavLink to="/plans">PLANOS</NavLink>
 
-          <Link to="/subscriptions">MATRÍCULAS</Link>
-          <Link to="/help-orders">PEDIDOS DE AUXÍLIO</Link>
+            <NavLink to="/subscriptions">MATRÍCULAS</NavLink>
+            <NavLink to="/help-orders">PEDIDOS DE AUXÍLIO</NavLink>
+          </span>
         </nav>
 
         <aside>
