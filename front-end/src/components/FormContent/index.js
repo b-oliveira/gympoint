@@ -22,7 +22,14 @@ export const FormContent = styled.div`
         margin-bottom: 8px;
       }
 
-      input {
+      p {
+        font-size: 16px;
+        color: #666666;
+        line-height: 26px;
+      }
+
+      input,
+      textarea {
         color: #666666;
         font-weight: normal;
         font-size: 16px;
@@ -33,6 +40,16 @@ export const FormContent = styled.div`
         padding: 16px;
         width: 100%;
       }
+      textarea {
+        height: 127px;
+
+        /* &::placeholder {
+          font-size: 16px;
+          color: #999999;
+          text-align: left;
+        } */
+      }
+
       input[type='date']::-webkit-inner-spin-button {
         -webkit-appearance: none;
       }

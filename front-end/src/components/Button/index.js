@@ -5,15 +5,14 @@ export const PrimaryButton = styled.button`
   color: #fff;
   font-weight: bold;
   font-size: 14px;
-  height: 36px;
+  height: ${props => props.height || '36px'};
   width: ${props => props.width};
   border: none;
   border-radius: 4px;
-  text-align: right;
   padding: 10px 16px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: ${props => props['justify-content'] || 'space-between'};
 `;
 
 export const SecondaryButton = styled.button`
