@@ -4,7 +4,7 @@ import AsyncSelect from 'react-select/async';
 export const FormContent = styled.div`
   ul {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(189px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(182px, 1fr));
     grid-gap: 16px;
     width: 100%;
 
