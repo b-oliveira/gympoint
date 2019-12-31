@@ -14,6 +14,9 @@ class AnswerController {
           attributes: ['id', 'name'],
         },
       ],
+      where: {
+        answer: null,
+      },
       order: ['created_at'],
     });
 
