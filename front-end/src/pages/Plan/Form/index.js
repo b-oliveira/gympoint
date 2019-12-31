@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Form, Input } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
+import { MdKeyboardArrowLeft, MdDone } from 'react-icons/md';
 import * as Yup from 'yup';
 
 import api from '~/services/api';
@@ -106,10 +107,12 @@ export default function Plan() {
               width="112px"
               onClick={() => history.push('/plans')}
             >
+              <MdKeyboardArrowLeft color="#fff" size={20} />
               VOLTAR
             </PrimaryButton>
             <Divider />
             <PrimaryButton type="submit" width="112px">
+              <MdDone color="#fff" size={20} />
               SALVAR
             </PrimaryButton>
           </div>

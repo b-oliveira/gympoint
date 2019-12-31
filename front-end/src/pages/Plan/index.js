@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
+import { MdAdd } from 'react-icons/md';
 
 import api from '~/services/api';
 import history from '~/services/history';
@@ -65,6 +66,7 @@ export default function Plan() {
       <SubHeader>
         <SubHeaderTitle>Gerenciando planos</SubHeaderTitle>
         <PrimaryButton width="142px" onClick={() => createPlan()}>
+          <MdAdd color="#fff" size={20} />
           CADASTRAR
         </PrimaryButton>
       </SubHeader>

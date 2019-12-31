@@ -32,7 +32,7 @@ export default function Subscription() {
           width="142px"
         >
           <MdAdd color="#fff" size={20} />
-          <span>CADASTRAR</span>
+          CADASTRAR
         </PrimaryButton>
       </SubHeader>
       <Table>
