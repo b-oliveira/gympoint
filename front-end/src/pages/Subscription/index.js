@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import { MdCheckCircle, MdAdd } from 'react-icons/md';
 
 import api from '~/services/api';
@@ -22,6 +23,20 @@ export default function Subscription() {
 
     loadSubscriptions();
   }, []);
+
+  async function deleteSubscription(id) {
+    try {
+      await api.delete(`subscriptions/${id}`);
+
+      setSubscription(
+        subscriptions.filter(subscription => subscription.id !== id)
+      );
+
+      toast.success('Registro excluído com sucesso!');
+    } catch (_) {
+      toast.error('Não foi possível realizar esta operação!');
+    }
+  }
 
   return (
     <Container>
@@ -70,7 +85,12 @@ export default function Subscription() {
                     editar
                   </SecondaryButton>
                   <Divider />
-                  <SecondaryButton color="#DE3B3B">apagar</SecondaryButton>
+                  <SecondaryButton
+                    color="#DE3B3B"
+                    onClick={() => deleteSubscription(subscription.id)}
+                  >
+                    apagar
+                  </SecondaryButton>
                 </div>
               </TableRow>
             </tr>
