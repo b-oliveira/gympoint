@@ -14,7 +14,7 @@ class CheckinController {
       return res.status(404).json({ error: 'Student does not exist!' });
 
     const checkins = await Checkin.findAll({
-      attributes: ['created_at'],
+      attributes: ['id', 'created_at'],
       where: {
         student_id: id,
       },
