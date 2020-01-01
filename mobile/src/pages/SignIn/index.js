@@ -16,6 +16,7 @@ export default function SignIn() {
           <FormInput
             keyboardType="numeric"
             placeholder="Informe seu ID de cadastro"
+            returnKeyType="send"
           />
 
           <SubmitButton>Entrar no sistema</SubmitButton>
