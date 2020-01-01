@@ -49,13 +49,13 @@ class CheckinController {
     if (checkinsCount > 5)
       return res.status(400).json({ error: 'Checkins limit exceeded!' });
 
-    const { created_at } = await Checkin.create({
+    const checkin = await Checkin.create({
       student_id: id,
     });
 
     return res.json({
-      student_id: id,
-      created_at,
+      id: checkin.id,
+      created_at: checkin.created_at,
     });
   }
 }
