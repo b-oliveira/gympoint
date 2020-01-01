@@ -6,13 +6,13 @@ import Background from '../../components/Background';
 
 // import { Container } from './styles';
 
-export default function Checkin() {
+export default function HelpOrder() {
   return <Background />;
 }
 
-Checkin.navigationOptions = {
-  tabBarLabel: 'Check-ins',
+HelpOrder.navigationOptions = {
+  tabBarLabel: 'Pedir ajuda',
   tabBarIcon: ({ tintColor }) => (
-    <Icon name="edit-location" size={20} color={tintColor} />
+    <Icon name="live-help" size={20} color={tintColor} />
   ),
 };
