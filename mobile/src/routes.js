@@ -1,24 +1,72 @@
+import React from 'react';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { createStackNavigator } from 'react-navigation-stack';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import SignIn from '~/pages/SignIn';
 
 import Checkin from '~/pages/Checkin';
 import HelpOrder from '~/pages/HelpOrder';
+import ShowAnswer from '~/pages/HelpOrder/ShowAnswer';
 
 export default (signedIn = false) =>
   createAppContainer(
     createSwitchNavigator(
       {
-        Sign: createSwitchNavigator({
-          SignIn,
-        }),
+        SignIn,
         App: createBottomTabNavigator(
           {
-            Checkin,
-            HelpOrder,
+            Checkins: {
+              screen: createStackNavigator(
+                {
+                  Checkin,
+                },
+                {
+                  defaultNavigationOptions: {
+                    headerTransparent: false,
+                    headerTintColor: '#EE4E62',
+                    headerTitleAlign: 'center',
+                    headerLeftContainerStyle: {
+                      marginLeft: 20,
+                    },
+                  },
+                }
+              ),
+              navigationOptions: {
+                tabBarLabel: 'Check-ins',
+                tabBarIcon: ({ tintColor }) => (
+                  <Icon name="edit-location" size={20} color={tintColor} />
+                ),
+              },
+            },
+            HelpOrders: {
+              screen: createStackNavigator(
+                {
+                  HelpOrder,
+                  ShowAnswer,
+                },
+                {
+                  defaultNavigationOptions: {
+                    headerTransparent: false,
+                    headerTintColor: '#EE4E62',
+                    headerTitleAlign: 'center',
+                    headerLeftContainerStyle: {
+                      marginLeft: 20,
+                    },
+                  },
+                }
+              ),
+              navigationOptions: {
+                tabBarLabel: 'Pedir ajuda',
+                tabBarIcon: ({ tintColor }) => (
+                  <Icon name="live-help" size={20} color={tintColor} />
+                ),
+              },
+            },
           },
           {
+            resetOnBlur: true,
             tabBarOptions: {
               keyboardHidesTabBar: true,
               activeTintColor: '#EE4E62',
@@ -31,7 +79,7 @@ export default (signedIn = false) =>
         ),
       },
       {
-        initialRouteName: signedIn ? 'App' : 'Sign',
+        initialRouteName: signedIn ? 'App' : 'SignIn',
       }
     )
   );

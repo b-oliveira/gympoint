@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { withNavigation } from 'react-navigation';
 import { parseISO, formatDistanceStrict } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import PropTypes from 'prop-types';
@@ -6,7 +7,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { Container, Info, Left, Title, Time, Question } from './styles';
 
-export default function HelpOrderItem({ data }) {
+function HelpOrderItem({ data, navigation }) {
   const timeFormatted = useMemo(
     () =>
       formatDistanceStrict(parseISO(data.created_at), new Date(), {
@@ -17,7 +18,11 @@ export default function HelpOrderItem({ data }) {
   );
 
   return (
-    <Container>
+    <Container
+      onPress={() => {
+        navigation.navigate('Question', { helpOrder: data });
+      }}
+    >
       <Info>
         <Left>
           <Icon
@@ -44,3 +49,5 @@ HelpOrderItem.propTypes = {
     created_at: PropTypes.string.isRequired,
   }).isRequired,
 };
+
+export default withNavigation(HelpOrderItem);

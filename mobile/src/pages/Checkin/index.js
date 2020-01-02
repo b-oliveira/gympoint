@@ -58,9 +58,6 @@ export default function Checkin() {
   );
 }
 
-Checkin.navigationOptions = {
-  tabBarLabel: 'Check-ins',
-  tabBarIcon: ({ tintColor }) => (
-    <Icon name="edit-location" size={20} color={tintColor} />
-  ),
-};
+Checkin.navigationOptions = () => ({
+  headerTitle: 'Check-ins',
+});
