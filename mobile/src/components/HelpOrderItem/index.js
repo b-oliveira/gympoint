@@ -20,7 +20,7 @@ function HelpOrderItem({ data, navigation }) {
   return (
     <Container
       onPress={() => {
-        navigation.navigate('Question', { helpOrder: data });
+        navigation.navigate('ShowAnswer', { helpOrder: data });
       }}
     >
       <Info>

@@ -9,6 +9,7 @@ import SignIn from '~/pages/SignIn';
 import Checkin from '~/pages/Checkin';
 import HelpOrder from '~/pages/HelpOrder';
 import ShowAnswer from '~/pages/HelpOrder/ShowAnswer';
+import NewQuestion from '~/pages/HelpOrder/NewQuestion';
 
 export default (signedIn = false) =>
   createAppContainer(
@@ -45,6 +46,7 @@ export default (signedIn = false) =>
                 {
                   HelpOrder,
                   ShowAnswer,
+                  NewQuestion,
                 },
                 {
                   defaultNavigationOptions: {

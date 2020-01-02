@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { withNavigationFocus } from 'react-navigation';
 import { Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -10,7 +11,7 @@ import HelpOrderItem from '../../components/HelpOrderItem';
 
 import { Container, SubmitButton, List } from './styles';
 
-export default function HelpOrder() {
+function HelpOrder({ navigation, isFocused }) {
   const { id } = useSelector(state => state.auth.student);
   const [helpOrders, setHelpOrders] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -23,12 +24,19 @@ export default function HelpOrder() {
     }
 
     loadHelpOrders();
-  }, [id]);
+  }, [isFocused]); // eslint-disable-line
 
   return (
     <Background>
       <Container>
-        <SubmitButton loading={loading}>Novo pedido de auxílio</SubmitButton>
+        <SubmitButton
+          loading={loading}
+          onPress={() => {
+            navigation.navigate('NewQuestion');
+          }}
+        >
+          Novo pedido de auxílio
+        </SubmitButton>
 
         <List
           data={helpOrders}
@@ -42,3 +50,5 @@ export default function HelpOrder() {
 HelpOrder.navigationOptions = () => ({
   headerTitle: 'Help Orders',
 });
+
+export default withNavigationFocus(HelpOrder);

@@ -1,31 +1,27 @@
 import styled from 'styled-components/native';
-import { RectButton } from 'react-native-gesture-handler';
 
-export const Container = styled(RectButton)`
+import Input from '~/components/Input';
+import Button from '~/components/Button';
+
+export const Container = styled.View`
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 4px;
-  padding: 20px;
-  margin-top: 10px;
+  margin: 20px;
 `;
 
 export const Info = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-`;
-
-export const Left = styled.View`
-  flex-direction: row;
-  align-items: center;
+  padding-bottom: 16px;
 `;
 
 export const Title = styled.Text`
-  color: ${props => (props.answered ? '#42cb59' : '#999')};
+  color: #444;
   font-size: 14px;
   font-weight: bold;
   text-align: left;
-  margin-left: 7px;
 `;
 
 export const Time = styled.Text`
@@ -34,12 +30,22 @@ export const Time = styled.Text`
   text-align: right;
 `;
 
-export const Question = styled.Text.attrs({
-  numberOfLines: 3,
-})`
+export const Text = styled.Text`
   color: #666;
   font-size: 14px;
   line-height: 26px;
   text-align: left;
-  margin-top: 16px;
+`;
+
+export const Answer = styled.View`
+  padding-top: 20px;
+`;
+
+export const TextAreaInput = styled(Input)`
+  height: 300;
+  margin: 20px;
+`;
+
+export const SubmitButton = styled(Button)`
+  margin: 0 20px;
 `;
