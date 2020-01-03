@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import api from '../../services/api';
 
+import LogoHeader from '~/components/LogoHeader';
 import Background from '../../components/Background';
 import CheckinItem from '../../components/CheckinItem';
 
@@ -59,5 +60,5 @@ export default function Checkin() {
 }
 
 Checkin.navigationOptions = () => ({
-  headerTitle: 'Check-ins',
+  headerTitle: () => <LogoHeader />,
 });

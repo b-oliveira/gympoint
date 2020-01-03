@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import api from '../../services/api';
 
+import LogoHeader from '~/components/LogoHeader';
 import Background from '../../components/Background';
 import HelpOrderItem from '../../components/HelpOrderItem';
 
@@ -48,7 +49,7 @@ function HelpOrder({ navigation, isFocused }) {
   );
 }
 HelpOrder.navigationOptions = () => ({
-  headerTitle: 'Help Orders',
+  headerTitle: () => <LogoHeader />,
 });
 
 export default withNavigationFocus(HelpOrder);

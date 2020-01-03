@@ -4,6 +4,7 @@ import { formatRelative, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import LogoHeader from '~/components/LogoHeader';
 import Background from '~/components/Background';
 
 import { Container, Info, Title, Time, Text, Answer } from './styles';
@@ -48,4 +49,5 @@ ShowAnswer.navigationOptions = ({ navigation }) => ({
       <Icon name="chevron-left" size={20} color="#EE4E62" />
     </TouchableOpacity>
   ),
+  headerTitle: () => <LogoHeader />,
 });
