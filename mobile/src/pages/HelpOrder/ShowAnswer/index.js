@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { formatRelative, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
+import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import LogoHeader from '~/components/LogoHeader';
@@ -51,3 +52,9 @@ ShowAnswer.navigationOptions = ({ navigation }) => ({
   ),
   headerTitle: () => <LogoHeader />,
 });
+
+ShowAnswer.propTypes = {
+  navigation: PropTypes.shape({
+    getParam: PropTypes.func,
+  }).isRequired,
+};
