@@ -48,6 +48,9 @@ HelpOrderItem.propTypes = {
     answer: PropTypes.string,
     created_at: PropTypes.string.isRequired,
   }).isRequired,
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
+  }).isRequired,
 };
 
 export default withNavigation(HelpOrderItem);

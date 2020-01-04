@@ -6,7 +6,7 @@ export const Container = styled(RectButton)`
   border: 1px solid #ddd;
   border-radius: 4px;
   padding: 20px;
-  margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
 export const Info = styled.View`
