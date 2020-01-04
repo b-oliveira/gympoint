@@ -1,23 +1,25 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Alert, TouchableOpacity } from 'react-native';
-
+import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import api from '../../../services/api';
+import api from '~/services/api';
 
 import LogoHeader from '~/components/LogoHeader';
 import Background from '~/components/Background';
 
-import { Container, TextAreaInput, SubmitButton } from './styles';
+import { TextAreaInput, SubmitButton } from './styles';
 
 export default function NewQuestion({ navigation }) {
   const { id } = useSelector(state => state.auth.student);
-
   const [question, setQuestion] = useState();
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit() {
     try {
+      setLoading(true);
+
       await api.post(`/students/${id}/help-orders`, {
         question,
       });
@@ -27,20 +29,21 @@ export default function NewQuestion({ navigation }) {
       navigation.navigate('HelpOrder');
     } catch (err) {
       Alert.alert('New Question', err.response.data.error);
+    } finally {
+      setLoading(false);
     }
   }
 
   return (
     <Background>
-      {/* <Container> */}
       <TextAreaInput
         placeholder="Inclua seu pedido de auxílio"
         multiline
-        value={question}
         onChangeText={setQuestion}
       />
-      {/* </Container> */}
-      <SubmitButton onPress={handleSubmit}>Enviar pedido</SubmitButton>
+      <SubmitButton loading={loading} onPress={handleSubmit}>
+        Enviar pedido
+      </SubmitButton>
     </Background>
   );
 }
@@ -57,3 +60,9 @@ NewQuestion.navigationOptions = ({ navigation }) => ({
   ),
   headerTitle: () => <LogoHeader />,
 });
+
+NewQuestion.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
+  }).isRequired,
+};
