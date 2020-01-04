@@ -1,60 +1,73 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { withNavigationFocus } from 'react-navigation';
 import { Alert } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import PropTypes from 'prop-types';
 
-import api from '../../services/api';
+import api from '~/services/api';
 
 import LogoHeader from '~/components/LogoHeader';
-import Background from '../../components/Background';
-import CheckinItem from '../../components/CheckinItem';
+import Background from '~/components/Background';
+import Button from '~/components/Button';
+import CheckinItem from '~/components/CheckinItem';
+import Loading from '~/components/Loading';
 
-import { Container, SubmitButton, List } from './styles';
+import { Container, List } from './styles';
 
-export default function Checkin() {
+function Checkin({ isFocused }) {
   const { id } = useSelector(state => state.auth.student);
   const [checkins, setCheckins] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    async function loadCheckins() {
-      const response = await api.get(`/students/${id}/checkins`);
+  async function loadCheckins() {
+    try {
+      const { data } = await api.get(`/students/${id}/checkins`);
 
-      setCheckins(response.data);
+      setCheckins(data);
+    } catch (err) {
+      Alert.alert('Check-in', err.response.data.error);
+    } finally {
+      setLoading(false);
     }
+  }
 
-    loadCheckins();
-  }, [id]);
+  useEffect(() => {
+    if (isFocused) {
+      setLoading(true);
+      loadCheckins();
+    }
+  }, [isFocused]); // eslint-disable-line
 
   async function handleSubmit() {
     try {
       setLoading(true);
 
-      const { data } = await api.post(`/students/${id}/checkins`);
+      await api.post(`/students/${id}/checkins`);
 
-      Alert.alert('Checkin', 'Check-in realizado com sucesso!');
+      Alert.alert('Check-in', 'Check-in realizado com sucesso!');
 
-      setCheckins([data, ...checkins]);
-      setLoading(false);
+      loadCheckins();
     } catch (err) {
-      Alert.alert('Checkin', err.response.data.error);
+      Alert.alert('Check-in', err.response.data.error);
+
       setLoading(false);
     }
   }
 
   return (
     <Background>
-      <Container>
-        <SubmitButton onPress={handleSubmit} loading={loading}>
-          Novo check-in
-        </SubmitButton>
-
-        <List
-          data={checkins}
-          keyExtractor={item => String(item.id)}
-          renderItem={({ item }) => <CheckinItem data={item} />}
-        />
-      </Container>
+      {loading ? (
+        <Loading />
+      ) : (
+        <Container>
+          <Button onPress={handleSubmit}>Novo check-in</Button>
+          <List
+            data={checkins}
+            keyExtractor={item => String(item.id)}
+            renderItem={({ item }) => <CheckinItem data={item} />}
+          />
+        </Container>
+      )}
     </Background>
   );
 }
@@ -62,3 +75,9 @@ export default function Checkin() {
 Checkin.navigationOptions = () => ({
   headerTitle: () => <LogoHeader />,
 });
+
+Checkin.propTypes = {
+  isFocused: PropTypes.bool.isRequired,
+};
+
+export default withNavigationFocus(Checkin);
