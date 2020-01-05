@@ -2,6 +2,8 @@ import * as Yup from 'yup';
 import { addMonths, parseISO, format } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 
+import Mail from '../../lib/Mail';
+
 import Subscription from '../models/Subscription';
 import Student from '../models/Student';
 import Plan from '../models/Plan';
@@ -102,7 +104,9 @@ class SubscriptionController {
 
     const { student_id, plan_id, start_date } = req.body;
 
-    const student = await Student.findByPk(student_id, { attributes: ['id'] });
+    const student = await Student.findByPk(student_id, {
+      attributes: ['id', 'name', 'email'],
+    });
 
     if (!student) return res.status(404).json({ error: 'Student not found!' });
 
@@ -123,6 +127,14 @@ class SubscriptionController {
     };
 
     const { id, active } = await Subscription.create(subscription);
+
+    const { name, email } = student;
+
+    await Mail.sendMail({
+      to: `${name} <${email}>`,
+      subject: 'Inscrição realizada',
+      text: 'Você está inscrito na acâdemia.',
+    });
 
     return res.json({
       id,
