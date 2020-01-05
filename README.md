@@ -69,3 +69,7 @@ react-native start
 react-native run-android
 ```
 Note: The app has been tested on Android only.
+
+---
+
+Made with ♥ by Brenner :wave: [See my LinkedIn!](https://www.linkedin.com/in/brenner-lo/)
