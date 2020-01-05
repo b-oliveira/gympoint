@@ -1,5 +1,5 @@
 import Sequelize, { Model } from 'sequelize';
-import { parseISO, isAfter, endOfDay } from 'date-fns';
+import { parseISO, isBefore, isAfter, startOfDay, endOfDay } from 'date-fns';
 
 class Subscription extends Model {
   static init(sequelize) {
@@ -11,7 +11,10 @@ class Subscription extends Model {
         active: {
           type: Sequelize.VIRTUAL,
           get() {
-            return !isAfter(new Date(), endOfDay(parseISO(this.end_date)));
+            return (
+              isBefore(startOfDay(parseISO(this.start_date)), new Date()) &&
+              isAfter(endOfDay(parseISO(this.end_date)), new Date())
+            );
           },
         },
       },
