@@ -42,20 +42,6 @@ export const FormContent = styled.div`
       }
       textarea {
         height: 127px;
-
-        /* &::placeholder {
-          font-size: 16px;
-          color: #999999;
-          text-align: left;
-        } */
-      }
-
-      input[type='date']::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-      }
-      input[type='date']::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
       }
 
       input:disabled {

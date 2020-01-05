@@ -61,6 +61,10 @@ export default function StudentForm() {
     loadPlan();
   }, [id]);
 
+  function goToStudents() {
+    history.push('/students');
+  }
+
   async function createStudent({ name, email, birth_date, weight, height }) {
     try {
       await api.post('students', {
@@ -72,6 +76,8 @@ export default function StudentForm() {
       });
 
       toast.success('Registro cadastrado com sucesso!');
+
+      goToStudents();
     } catch (err) {
       toast.error(err.response.data.error);
     }
@@ -88,6 +94,8 @@ export default function StudentForm() {
       });
 
       toast.success('Registro atualizado com sucesso!');
+
+      goToStudents();
     } catch (err) {
       toast.error(err.response.data.error);
     }
@@ -109,7 +117,7 @@ export default function StudentForm() {
               type="button"
               background="#ccc"
               width="112px"
-              onClick={() => history.push('/students')}
+              onClick={() => goToStudents()}
             >
               <MdKeyboardArrowLeft color="#fff" size={20} />
               VOLTAR

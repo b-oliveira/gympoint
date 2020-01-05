@@ -4,9 +4,7 @@ import { Form, Input } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
 import { MdKeyboardArrowLeft, MdDone } from 'react-icons/md';
 import * as Yup from 'yup';
-import { addMonths, parseISO, format } from 'date-fns';
-import pt from 'date-fns/locale/pt';
-// import AsyncSelect from 'react-select/async';
+import { addMonths, parseISO } from 'date-fns';
 
 import api from '~/services/api';
 import history from '~/services/history';
@@ -27,20 +25,17 @@ const schema = Yup.object().shape({
     .required('Informe a data.'),
 });
 
-export default function Subscription({ match }) {
-  console.tron.log(match);
+export default function Subscription() {
   const [subscription, setSubscription] = useState({});
   const [update, setUpdate] = useState(false);
 
+  const subscriptionId = useParams().id;
+
   useEffect(() => {
     async function loadSubscription() {
-      const { id } = match.params;
-
-      if (id) {
+      if (subscriptionId) {
         try {
-          const { data } = await api.get(`subscriptions/${id}`);
-
-          console.tron.log(data);
+          const { data } = await api.get(`subscriptions/${subscriptionId}`);
 
           setUpdate(true);
           setSubscription({
@@ -58,19 +53,15 @@ export default function Subscription({ match }) {
     }
 
     loadSubscription();
-  }, [match.params]);
+  }, [subscriptionId]);
 
   function calculatePriceTotal(duration, price) {
-    console.tron.log(`calculatePriceTotal: ${duration} * ${price}`);
-
     if (duration && price) return duration * price;
 
     return null;
   }
 
   function calculateEndDate(start_date, duration) {
-    console.tron.log(`calculateEndDate: ${start_date} ${duration}`);
-
     if (start_date && duration) {
       return addMonths(start_date, duration);
     }
@@ -105,7 +96,6 @@ export default function Subscription({ match }) {
   }
 
   function changeStartDate(start_date) {
-    console.tron.log(start_date);
     const { duration } = subscription.plan || {};
 
     setSubscription({
@@ -122,17 +112,17 @@ export default function Subscription({ match }) {
       },
     });
 
-    console.tron.log(data);
-
     return data;
   }
 
   async function loadPlans() {
     const { data } = await api.get('plans');
 
-    console.tron.log(data);
-
     return data;
+  }
+
+  function goToSubscriptions() {
+    history.push('/subscriptions');
   }
 
   async function createSubscription({ student, plan, start_date }) {
@@ -144,6 +134,8 @@ export default function Subscription({ match }) {
       });
 
       toast.success('Registro cadastrado com sucesso!');
+
+      goToSubscriptions();
     } catch (err) {
       toast.error(err.response.data.error);
     }
@@ -151,15 +143,15 @@ export default function Subscription({ match }) {
 
   async function updateSubscription({ student, plan, start_date }) {
     try {
-      const { id } = match.params;
-
-      await api.put(`subscriptions/${id}`, {
+      await api.put(`subscriptions/${subscriptionId}`, {
         plan_id: plan.id,
         student_id: student.id,
         start_date,
       });
 
       toast.success('Registro atualizado com sucesso!');
+
+      goToSubscriptions();
     } catch (err) {
       toast.error(err.response.data.error);
     }
@@ -181,7 +173,7 @@ export default function Subscription({ match }) {
               type="button"
               background="#ccc"
               width="112px"
-              onClick={() => history.push('/subscriptions')}
+              onClick={() => goToSubscriptions()}
             >
               <MdKeyboardArrowLeft color="#fff" size={20} />
               VOLTAR

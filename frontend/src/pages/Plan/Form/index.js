@@ -61,6 +61,10 @@ export default function Plan() {
     calculatePriceTotal();
   }, [plan.duration, plan.price]);
 
+  function goToPlans() {
+    history.push('/plans');
+  }
+
   async function createPlan({ title, duration, price }) {
     try {
       await api.post('plans', {
@@ -70,6 +74,8 @@ export default function Plan() {
       });
 
       toast.success('Registro cadastrado com sucesso!');
+
+      goToPlans();
     } catch (err) {
       toast.error(err.response.data.error);
     }
@@ -84,6 +90,8 @@ export default function Plan() {
       });
 
       toast.success('Registro atualizado com sucesso!');
+
+      goToPlans();
     } catch (err) {
       toast.error(err.response.data.error);
     }
@@ -105,7 +113,7 @@ export default function Plan() {
               type="button"
               background="#ccc"
               width="112px"
-              onClick={() => history.push('/plans')}
+              onClick={() => goToPlans()}
             >
               <MdKeyboardArrowLeft color="#fff" size={20} />
               VOLTAR
