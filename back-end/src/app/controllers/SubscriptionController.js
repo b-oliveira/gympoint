@@ -2,7 +2,8 @@ import * as Yup from 'yup';
 import { addMonths, parseISO, format } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 
-import Mail from '../../lib/Mail';
+import Queue from '../../lib/Queue';
+import SubscriptionMail from '../jobs/SubscriptionMail';
 
 import Subscription from '../models/Subscription';
 import Student from '../models/Student';
@@ -121,8 +122,8 @@ class SubscriptionController {
     const subscription = {
       student_id,
       plan_id,
-      start_date: format(parseISO(start_date), 'dd/MM/yyyy'),
-      end_date: format(addMonths(parseISO(start_date), duration), 'dd/MM/yyyy'),
+      start_date: format(parseISO(start_date), 'yyyy-MM-dd'),
+      end_date: format(addMonths(parseISO(start_date), duration), 'yyyy-MM-dd'),
       price: duration * price,
     };
 
@@ -130,26 +131,22 @@ class SubscriptionController {
 
     const { name, email } = student;
 
-    await Mail.sendMail({
-      to: `${name} <${email}>`,
-      subject: 'Inscrição realizada',
-      template: 'subscription',
-      context: {
-        student: name,
-        plan: title,
-        start_date: subscription.start_date,
-        end_date: subscription.end_date,
-        price: subscription.price,
+    await Queue.add(SubscriptionMail.key, {
+      subscription: {
+        ...subscription,
+        student: {
+          name,
+          email,
+        },
+        plan: {
+          title,
+        },
       },
     });
 
     return res.json({
+      ...subscription,
       id,
-      student_id: subscription.student_id,
-      plan_id: subscription.plan_id,
-      start_date: subscription.start_date,
-      end_date: subscription.end_date,
-      price: subscription.end_date,
       active,
     });
   }
