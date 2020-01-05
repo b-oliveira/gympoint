@@ -1,5 +1,8 @@
 import * as Yup from 'yup';
 
+import Queue from '../../lib/Queue';
+import AnswerMail from '../jobs/AnswerMail';
+
 import HelpOrder from '../models/HelpOrder';
 import Student from '../models/Student';
 
@@ -26,7 +29,15 @@ class AnswerController {
   async update(req, res) {
     const { id } = req.params;
 
-    const helpOrder = await HelpOrder.findByPk(id);
+    const helpOrder = await HelpOrder.findByPk(id, {
+      include: [
+        {
+          model: Student,
+          as: 'student',
+          attributes: ['name', 'email'],
+        },
+      ],
+    });
 
     if (!helpOrder)
       return res.status(404).json({ error: 'Help Order does not exist!' });
@@ -43,6 +54,17 @@ class AnswerController {
     const { student_id, question, created_at } = await helpOrder.update({
       answer,
       answer_at: new Date(),
+    });
+
+    const { name, email } = helpOrder.student;
+
+    await Queue.add(AnswerMail.key, {
+      student: {
+        name,
+        email,
+      },
+      question,
+      answer,
     });
 
     return res.json({
