@@ -1,6 +1,8 @@
 import React, { useRef, useEffect } from 'react';
 import { useField } from '@rocketseat/unform';
 import AsyncSelect from 'react-select/async';
+import PropTypes from 'prop-types';
+
 import customStyles from './styles';
 
 export default function InputAsyncSelect({ name, ...rest }) {
@@ -23,3 +25,7 @@ export default function InputAsyncSelect({ name, ...rest }) {
     </>
   );
 }
+
+InputAsyncSelect.propTypes = {
+  name: PropTypes.string.isRequired,
+};
