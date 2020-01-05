@@ -9,6 +9,8 @@ import { addMonths, parseISO } from 'date-fns';
 import api from '~/services/api';
 import history from '~/services/history';
 
+import { addMask } from '~/util/mask';
+
 import { Container, Content } from '~/components/Container';
 import { SubHeader, SubHeaderTitle } from '~/components/SubHeader';
 import { PrimaryButton } from '~/components/Button';
@@ -42,6 +44,7 @@ export default function Subscription() {
             ...data,
             start_date: parseISO(data.start_date),
             end_date: parseISO(data.end_date),
+            price: addMask('R$', data.price, true),
           });
         } catch (err) {
           toast.error(err.response.data.error);
@@ -56,7 +59,7 @@ export default function Subscription() {
   }, [subscriptionId]);
 
   function calculatePriceTotal(duration, price) {
-    if (duration && price) return duration * price;
+    if (duration && price) return addMask('R$', duration * price, true);
 
     return null;
   }
@@ -237,7 +240,7 @@ export default function Subscription() {
               </li>
               <li>
                 <strong>VALOR FINAL</strong>
-                <Input name="price" type="number" disabled />
+                <Input name="price" type="text" disabled />
               </li>
             </ul>
           </FormContent>

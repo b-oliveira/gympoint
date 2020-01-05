@@ -8,6 +8,8 @@ import * as Yup from 'yup';
 import api from '~/services/api';
 import history from '~/services/history';
 
+import { addMask, removeMask } from '~/util/mask';
+
 import { Container, Content } from '~/components/Container';
 import { SubHeader, SubHeaderTitle } from '~/components/SubHeader';
 import { PrimaryButton } from '~/components/Button';
@@ -20,10 +22,7 @@ const schema = Yup.object().shape({
     .typeError('Informe um valor númerico.')
     .positive('Informe um valor positivo.')
     .required(),
-  price: Yup.number()
-    .typeError('Informe um valor númerico.')
-    .positive('Informe um valor positivo.')
-    .required(),
+  price: Yup.string().required('O preço é obrigatório.'),
 });
 
 export default function Plan() {
@@ -40,7 +39,10 @@ export default function Plan() {
           const { data } = await api.get(`plans/${id}`);
 
           setUpdate(true);
-          setPlan(data);
+          setPlan({
+            ...data,
+            price: addMask('R$', data.price, true),
+          });
         } catch (err) {
           toast.error(err.response.data.error);
           history.push('/plans');
@@ -55,11 +57,21 @@ export default function Plan() {
 
   useEffect(() => {
     function calculatePriceTotal() {
-      setPriceTotal(plan.duration * plan.price);
+      const { duration, price } = plan;
+
+      if (duration && price) {
+        if (removeMask(price)) {
+          setPriceTotal(addMask('R$', duration * removeMask(price), true));
+        } else {
+          setPriceTotal(null);
+        }
+      } else {
+        setPriceTotal(null);
+      }
     }
 
     calculatePriceTotal();
-  }, [plan.duration, plan.price]);
+  }, [plan]);
 
   function goToPlans() {
     history.push('/plans');
@@ -70,7 +82,7 @@ export default function Plan() {
       await api.post('plans', {
         title,
         duration,
-        price,
+        price: removeMask(price),
       });
 
       toast.success('Registro cadastrado com sucesso!');
@@ -86,7 +98,7 @@ export default function Plan() {
       await api.put(`plans/${id}`, {
         title,
         duration,
-        price,
+        price: removeMask(price),
       });
 
       toast.success('Registro atualizado com sucesso!');
@@ -151,7 +163,7 @@ export default function Plan() {
                 <strong>PREÇO MENSAL</strong>
                 <Input
                   name="price"
-                  type="number"
+                  type="text"
                   onChange={e =>
                     setPlan({
                       ...plan,
@@ -164,7 +176,7 @@ export default function Plan() {
                 <strong>PREÇO TOTAL</strong>
                 <Input
                   name="priceTotal"
-                  type="number"
+                  type="text"
                   value={priceTotal || ''}
                   disabled
                 />

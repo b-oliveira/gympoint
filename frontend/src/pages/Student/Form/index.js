@@ -9,6 +9,8 @@ import { parseISO } from 'date-fns';
 import api from '~/services/api';
 import history from '~/services/history';
 
+import { addMask, removeMask } from '~/util/mask';
+
 import { Container, Content } from '~/components/Container';
 import { SubHeader, SubHeaderTitle } from '~/components/SubHeader';
 import { PrimaryButton } from '~/components/Button';
@@ -22,14 +24,8 @@ const schema = Yup.object().shape({
     .email('Insira um e-mail válido')
     .required('O e-mail é obrigatório'),
   birth_date: Yup.date().required('A data de nascimento é obrigatório.'),
-  weight: Yup.number()
-    .typeError('O valor é inválido.')
-    .positive('O valor deve ser positivo.')
-    .required('O peso é obrigatório.'),
-  height: Yup.number()
-    .typeError('O valor é inválido.')
-    .positive('O valor deve ser positivo.')
-    .required('A altura é obrigatório.'),
+  weight: Yup.string().required('O peso é obrigatório.'),
+  height: Yup.string().required('A altura é obrigatório.'),
 });
 
 export default function StudentForm() {
@@ -48,6 +44,8 @@ export default function StudentForm() {
           setStudent({
             ...data,
             birth_date: parseISO(data.birth_date),
+            weight: addMask('kg', data.weight, false),
+            height: addMask('m', data.height, false),
           });
         } catch (err) {
           toast.error(err.response.data.error);
@@ -71,8 +69,8 @@ export default function StudentForm() {
         name,
         email,
         birth_date,
-        weight,
-        height,
+        weight: removeMask(weight),
+        height: removeMask(height),
       });
 
       toast.success('Registro cadastrado com sucesso!');
@@ -84,13 +82,14 @@ export default function StudentForm() {
   }
 
   async function updateStudent({ name, email, birth_date, weight, height }) {
+    console.tron.log(removeMask(weight));
     try {
       await api.put(`students/${id}`, {
         name,
         email,
         birth_date,
-        weight,
-        height,
+        weight: removeMask(weight),
+        height: removeMask(height),
       });
 
       toast.success('Registro atualizado com sucesso!');
@@ -163,7 +162,8 @@ export default function StudentForm() {
                 <strong>PESO (em kg)</strong>
                 <Input
                   name="weight"
-                  type="number"
+                  type="text"
+                  value={student.weight}
                   onChange={e =>
                     setStudent({
                       ...student,
@@ -176,7 +176,7 @@ export default function StudentForm() {
                 <strong>ALTURA</strong>
                 <Input
                   name="height"
-                  type="number"
+                  type="text"
                   onChange={e =>
                     setStudent({
                       ...student,
