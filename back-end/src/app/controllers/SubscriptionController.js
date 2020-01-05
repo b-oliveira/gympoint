@@ -111,12 +111,12 @@ class SubscriptionController {
     if (!student) return res.status(404).json({ error: 'Student not found!' });
 
     const plan = await Plan.findByPk(plan_id, {
-      attributes: ['duration', 'price'],
+      attributes: ['title', 'duration', 'price'],
     });
 
     if (!plan) return res.status(404).json({ error: 'Plan not found!' });
 
-    const { duration, price } = plan;
+    const { title, duration, price } = plan;
 
     const subscription = {
       student_id,
@@ -133,7 +133,14 @@ class SubscriptionController {
     await Mail.sendMail({
       to: `${name} <${email}>`,
       subject: 'Inscrição realizada',
-      text: 'Você está inscrito na acâdemia.',
+      template: 'subscription',
+      context: {
+        student: name,
+        plan: title,
+        start_date: subscription.start_date,
+        end_date: subscription.end_date,
+        price: subscription.price,
+      },
     });
 
     return res.json({
