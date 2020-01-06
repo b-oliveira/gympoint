@@ -1,6 +1,5 @@
 import * as Yup from 'yup';
 import { addMonths, parseISO, format } from 'date-fns';
-import pt from 'date-fns/locale/pt';
 
 import Queue from '../../lib/Queue';
 import SubscriptionMail from '../jobs/SubscriptionMail';
@@ -27,47 +26,7 @@ class SubscriptionController {
       ],
     });
 
-    const data = subscriptions.map(subscription => {
-      const {
-        id,
-        start_date,
-        end_date,
-        price,
-        active,
-        student,
-        plan,
-      } = subscription;
-
-      const start_date_formatted = format(
-        parseISO(subscription.start_date),
-        "d 'de' MMMM 'de' yyyy",
-        {
-          locale: pt,
-        }
-      );
-
-      const end_date_formatted = format(
-        parseISO(subscription.end_date),
-        "d 'de' MMMM 'de' yyyy",
-        {
-          locale: pt,
-        }
-      );
-
-      return {
-        id,
-        start_date,
-        start_date_formatted,
-        end_date,
-        end_date_formatted,
-        price,
-        active,
-        student,
-        plan,
-      };
-    });
-
-    return res.json(data);
+    return res.json(subscriptions);
   }
 
   async show(req, res) {

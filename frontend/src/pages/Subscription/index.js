@@ -3,6 +3,8 @@ import { toast } from 'react-toastify';
 import { MdCheckCircle, MdAdd } from 'react-icons/md';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
+import { parseISO, format } from 'date-fns';
+import pt from 'date-fns/locale/pt';
 
 import api from '~/services/api';
 import history from '~/services/history';
@@ -20,7 +22,31 @@ export default function Subscription() {
     async function loadSubscriptions() {
       const response = await api.get('subscriptions');
 
-      setSubscription(response.data);
+      const data = response.data.map(subscription => {
+        const start_date_formatted = format(
+          parseISO(subscription.start_date),
+          "d 'de' MMMM 'de' yyyy",
+          {
+            locale: pt,
+          }
+        );
+
+        const end_date_formatted = format(
+          parseISO(subscription.end_date),
+          "d 'de' MMMM 'de' yyyy",
+          {
+            locale: pt,
+          }
+        );
+
+        return {
+          ...subscription,
+          start_date_formatted,
+          end_date_formatted,
+        };
+      });
+
+      setSubscription(data);
     }
 
     loadSubscriptions();
