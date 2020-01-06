@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { MdCheckCircle, MdAdd } from 'react-icons/md';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 import api from '~/services/api';
 import history from '~/services/history';
@@ -87,7 +89,28 @@ export default function Subscription() {
                   <Divider />
                   <SecondaryButton
                     color="#DE3B3B"
-                    onClick={() => deleteSubscription(subscription.id)}
+                    onClick={() =>
+                      confirmAlert({
+                        customUI: alert => {
+                          return (
+                            <div className="custom-ui">
+                              <strong>
+                                {`Tem certeza que deseja excluir a inscrição
+                                do aluno ${subscription.student.name}?`}
+                              </strong>
+                              <PrimaryButton
+                                onClick={() => {
+                                  deleteSubscription(subscription.id);
+                                  alert.onClose();
+                                }}
+                              >
+                                Sim, tenho certeza
+                              </PrimaryButton>
+                            </div>
+                          );
+                        },
+                      })
+                    }
                   >
                     apagar
                   </SecondaryButton>

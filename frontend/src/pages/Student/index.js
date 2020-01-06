@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { MdAdd, MdSearch } from 'react-icons/md';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 import api from '~/services/api';
 import history from '~/services/history';
@@ -93,7 +95,27 @@ export default function Student() {
                   <Divider />
                   <SecondaryButton
                     color="#DE3B3B"
-                    onClick={() => deleteStudent(student.id)}
+                    onClick={() =>
+                      confirmAlert({
+                        customUI: alert => {
+                          return (
+                            <div className="custom-ui">
+                              <strong>
+                                {`Tem certeza que deseja excluir o aluno ${student.name}?`}
+                              </strong>
+                              <PrimaryButton
+                                onClick={() => {
+                                  deleteStudent(student.id);
+                                  alert.onClose();
+                                }}
+                              >
+                                Sim, tenho certeza
+                              </PrimaryButton>
+                            </div>
+                          );
+                        },
+                      })
+                    }
                   >
                     apagar
                   </SecondaryButton>
